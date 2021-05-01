@@ -1,5 +1,8 @@
 function! vcs#git#is_git() abort
-  return vcs#git#project_root() != ''
+  if !exists('b:vcs_git_is_git')
+    let b:vcs_git_is_git = vcs#git#project_root() != ''
+  endif
+  return b:vcs_git_is_git
 endfunction
 
 function! vcs#git#project_root() abort
@@ -9,10 +12,4 @@ function! vcs#git#project_root() abort
     return l:root
   endif
   return ''
-endfunction
-
-function! vcs#git#relative_path() abort
-  let l:file = expand('%:t')
-  let l:root = vcs#git#project_root()
-  return l:file !=# '' ? substitute(expand('%:p'), l:root, '/', '') : '[No Name]'
 endfunction
