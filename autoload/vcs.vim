@@ -13,16 +13,20 @@ endfunction
 
 function! vcs#relative_path() abort
   let l:file = expand('%:t')
+  if stridx(l:file, '[') == 0
+    return l:file
+  endif
   let l:root = vcs#project_root()
   if l:root ==# ''
     return l:file
   endif
-  return l:file !=# '' ? substitute(expand('%:p'), l:root, '/', '') : '[No Name]'
+  let l:path = expand('%:p')
+  return l:file !=# '' ? substitute(l:path, l:root, '/', '') : '[No Name]'
 endfunction
 
 function! vcs#short_relative_path() abort
   let l:path = vcs#relative_path()
-  if l:path == '[No Name]'
+  if stridx(l:path, '[') == 0
     return l:path
   elseif len(l:path) > 48
     let l:parts = split(l:path, '/')
