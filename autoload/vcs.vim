@@ -2,6 +2,8 @@ function! vcs#project_root() abort
   if !exists('b:vcs_project_root')
     if vcs#git#is_git()
       let b:vcs_project_root = vcs#git#project_root()
+    elseif vcs#perforce#is_perforce()
+      let b:vcs_project_root = vcs#perforce#project_root()
     else
       let b:vcs_project_root = ''
     endif
