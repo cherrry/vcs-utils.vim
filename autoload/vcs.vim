@@ -12,6 +12,9 @@ endfunction
 function! vcs#relative_path() abort
   let l:file = expand('%:t')
   let l:root = vcs#project_root()
+  if l:root ==# ''
+    return l:file
+  endif
   return l:file !=# '' ? substitute(expand('%:p'), l:root, '/', '') : '[No Name]'
 endfunction
 
